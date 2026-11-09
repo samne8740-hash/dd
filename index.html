@@ -1487,11 +1487,27 @@
       charCounter.textContent = remaining;
     });
   </script>
-<style>
-    #netlify-badge {
-        display: none !important;
-    }
-</style>
+<script>
+    const aturBadge = () => {
+        // Mencari elemen badge Netlify standar
+        const badgeBiasa = document.getElementById('netlify-badge') || document.querySelector('[data-netlify-badge]');
+        if (badgeBiasa) badgeBiasa.style.setProperty('display', 'none', 'important');
+
+        // Mencari jika Netlify menggunakan sistem shadow root tersembunyi
+        const semuaElemen = document.querySelectorAll('*');
+        semuaElemen.forEach(el => {
+            if (el.shadowRoot) {
+                const badgeDiShadow = el.shadowRoot.getElementById('netlify-badge') || el.shadowRoot.querySelector('[data-netlify-badge]');
+                if (badgeDiShadow) badgeDiShadow.style.setProperty('display', 'none', 'important');
+            }
+        });
+    };
+    // Jalankan langsung dan terus pantau jika badge muncul terlambat
+    aturBadge();
+    window.addEventListener('DOMContentLoaded', aturBadge);
+    window.addEventListener('load', aturBadge);
+    setInterval(aturBadge, 500);
+</script>
 
 </body>
 </html>
